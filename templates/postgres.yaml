@@ -1,0 +1,23 @@
+# TODO: Remove this file once new version of cnpg cluster chart with managed roles support is released
+{{- if .Values.postgres.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "big-agi.fullname" . }}-postgres
+  labels:
+    {{- include "big-agi.labels" . | nindent 4 }}
+spec:
+  instances: {{ .Values.postgres.cluster.instances }}
+  storage: {{ .Values.postgres.cluster.storage | toYaml | nindent 4 }}
+  enableSuperuserAccess: {{ .Values.postgres.cluster.enableSuperuserAccess }}
+  {{- with .Values.postgres.cluster.superuserSecret }}
+  superuserSecret:
+    name: {{ . }}
+  {{ end }}
+
+  managed:
+    {{- with .Values.postgres.cluster.roles }}
+    roles:
+      {{- toYaml . | nindent 6 }}
+    {{ end }}
+{{- end }}

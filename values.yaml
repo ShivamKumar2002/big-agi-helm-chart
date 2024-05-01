@@ -1,0 +1,175 @@
+# Default values for big-agi.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+clusterDomain: "cluster.local"
+
+replicaCount: 1
+
+imagePullSecrets: []
+
+image:
+  repository: ghcr.io/enricoros/big-agi
+  tag: ""
+  pullPolicy: Always
+
+config:
+  ANTHROPIC_API_HOST: ""
+  ANTHROPIC_API_KEY: ""
+  AZURE_OPENAI_API_ENDPOINT: ""
+  AZURE_OPENAI_API_KEY: ""
+  BACKEND_ANALYTICS: ""
+  ELEVENLABS_API_HOST: ""
+  ELEVENLABS_API_KEY: ""
+  ELEVENLABS_VOICE_ID: ""
+  GEMINI_API_KEY: ""
+  GOOGLE_CLOUD_API_KEY: ""
+  GOOGLE_CSE_ID: ""
+  GROQ_API_KEY: ""
+  HELICONE_API_KEY: ""
+  HTTP_BASIC_AUTH_PASSWORD: ""
+  HTTP_BASIC_AUTH_USERNAME: ""
+  LOCALAI_API_HOST: ""
+  LOCALAI_API_KEY: ""
+  MDB_URI: ""
+  MISTRAL_API_KEY: ""
+  NEXT_PUBLIC_GA4_MEASUREMENT_ID: ""
+  NEXT_PUBLIC_PLANTUML_SERVER_URL: ""
+  OLLAMA_API_HOST: ""
+  OPENAI_API_HOST: ""
+  OPENAI_API_KEY: ""
+  OPENAI_API_ORG_ID: ""
+  OPENROUTER_API_KEY: ""
+  PERPLEXITY_API_KEY: ""
+  POSTGRES_PRISMA_URL: ""
+  POSTGRES_URL_NON_POOLING: ""
+  PRODIA_API_KEY: ""
+  PUPPETEER_WSS_ENDPOINT: ""
+  TOGETHERAI_API_KEY: ""
+
+# Additional environment variables
+additionalEnvVars: {}
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  fsGroup: 2000
+  runAsUser: 10000
+  runAsGroup: 3000
+  runAsNonRoot: true
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+postgres:
+  enabled: true
+  mode: standalone
+  cluster:
+    instances: 1
+    imagePullPolicy: Always
+    enableSuperuserAccess: true
+    roles:
+      - name: big-agi  # this should match the username in secret
+        ensure: present
+        login: true
+        superuser: true
+        createrole: true
+        inRoles:
+          - pg_read_all_data
+          - pg_write_all_data
+        password: "password"
+    storage:
+      size: 10G
+
+browserless:
+  enabled: true
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 30
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

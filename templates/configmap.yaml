@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "big-agi.fullname" . }}
+  labels:
+    {{- include "big-agi.labels" . | nindent 4 }}
+data:
+  ANTHROPIC_API_HOST: '{{ .Values.config.ANTHROPIC_API_HOST }}'
+  ANTHROPIC_API_KEY: '{{ .Values.config.ANTHROPIC_API_KEY }}'
+  AZURE_OPENAI_API_ENDPOINT: '{{ .Values.config.AZURE_OPENAI_API_ENDPOINT }}'
+  AZURE_OPENAI_API_KEY: '{{ .Values.config.AZURE_OPENAI_API_KEY }}'
+  BACKEND_ANALYTICS: '{{ .Values.config.BACKEND_ANALYTICS }}'
+  ELEVENLABS_API_HOST: '{{ .Values.config.ELEVENLABS_API_HOST }}'
+  ELEVENLABS_API_KEY: '{{ .Values.config.ELEVENLABS_API_KEY }}'
+  ELEVENLABS_VOICE_ID: '{{ .Values.config.ELEVENLABS_VOICE_ID }}'
+  GEMINI_API_KEY: '{{ .Values.config.GEMINI_API_KEY }}'
+  GOOGLE_CLOUD_API_KEY: '{{ .Values.config.GOOGLE_CLOUD_API_KEY }}'
+  GOOGLE_CSE_ID: '{{ .Values.config.GOOGLE_CSE_ID }}'
+  GROQ_API_KEY: '{{ .Values.config.GROQ_API_KEY }}'
+  HELICONE_API_KEY: '{{ .Values.config.HELICONE_API_KEY }}'
+  HTTP_BASIC_AUTH_PASSWORD: '{{ .Values.config.HTTP_BASIC_AUTH_PASSWORD }}'
+  HTTP_BASIC_AUTH_USERNAME: '{{ .Values.config.HTTP_BASIC_AUTH_USERNAME }}'
+  LOCALAI_API_HOST: '{{ .Values.config.LOCALAI_API_HOST }}'
+  LOCALAI_API_KEY: '{{ .Values.config.LOCALAI_API_KEY }}'
+  MDB_URI: '{{ .Values.config.MDB_URI }}'
+  MISTRAL_API_KEY: '{{ .Values.config.MISTRAL_API_KEY }}'
+  NEXT_PUBLIC_GA4_MEASUREMENT_ID: '{{ .Values.config.NEXT_PUBLIC_GA4_MEASUREMENT_ID }}'
+  NEXT_PUBLIC_PLANTUML_SERVER_URL: '{{ .Values.config.NEXT_PUBLIC_PLANTUML_SERVER_URL }}'
+  OLLAMA_API_HOST: '{{ .Values.config.OLLAMA_API_HOST }}'
+  OPENAI_API_HOST: '{{ .Values.config.OPENAI_API_HOST }}'
+  OPENAI_API_KEY: '{{ .Values.config.OPENAI_API_KEY }}'
+  OPENAI_API_ORG_ID: '{{ .Values.config.OPENAI_API_ORG_ID }}'
+  OPENROUTER_API_KEY: '{{ .Values.config.OPENROUTER_API_KEY }}'
+  PERPLEXITY_API_KEY: '{{ .Values.config.PERPLEXITY_API_KEY }}'
+  {{- if .Values.postgres.enabled }}
+  POSTGRES_PRISMA_URL: 'postgres://{{ (index .Values.postgres.cluster.roles 0).name }}:{{ (index .Values.postgres.cluster.roles 0).password }}@{{ include "big-agi.fullname" . }}-postgres-rw.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:5432/app?sslmode=disable'
+  {{- else }}
+  POSTGRES_PRISMA_URL: '{{ .Values.config.POSTGRES_PRISMA_URL }}'
+  {{- end }}
+  POSTGRES_URL_NON_POOLING: '{{ .Values.config.POSTGRES_URL_NON_POOLING }}'
+  PRODIA_API_KEY: '{{ .Values.config.PRODIA_API_KEY }}'
+  {{- if ".Values.browserless.enabled" }}
+  PUPPETEER_WSS_ENDPOINT: 'ws://{{ include "big-agi.fullname" . }}-browserless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:3000'
+  {{- else }}
+  PUPPETEER_WSS_ENDPOINT: '{{ .Values.config.PUPPETEER_WSS_ENDPOINT }}'
+  {{- end }}
+  TOGETHERAI_API_KEY: '{{ .Values.config.TOGETHERAI_API_KEY }}'
+  {{- with .Values.additionalEnvVars }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
