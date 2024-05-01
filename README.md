@@ -122,6 +122,16 @@ The `values.yaml` file contains the default configuration values for the Big-AGI
 
 This chart allows you to deploy integrated PostgreSQL database using CloudNativePG Operator. See [Official Documentation](https://cloudnative-pg.io/documentation/current/) for more details.
 
+CloudNative-PG Operator must be installed in cluster. Give following commands to install:
+
+```bash
+helm repo add cnpg https://cloudnative-pg.github.io/charts
+helm upgrade --install cnpg \
+  --namespace cnpg-system \
+  --create-namespace \
+  cnpg/cloudnative-pg
+```
+
 **NOTE:** This chart has its own minimal template for postgres cluster. In future we will switch to official chart (once managed roles support is released in chart). Till then, configuring everything is not possible.
 
 Currently available configuration:
