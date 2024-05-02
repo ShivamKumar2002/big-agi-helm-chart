@@ -138,6 +138,10 @@ Currently available configuration:
 
 `postgres.enabled`: Enable or disable the deployment of a PostgreSQL instance alongside your Big-AGI application. When set to true, a PostgreSQL database will be provisioned.
 
+`postgres.username`: Required if `enabled` is `true`. Specify the username to be used by Big-AGI for connecting. It will be created automatically.
+
+`postgres.password`: Required if `enabled` is `true`. Specify the password for username.
+
 `postgres.mode`: Choose the operational mode of PostgreSQL, which can be either standalone for a single-node deployment or cluster for a multi-node, highly available setup.
 
 `postgres.cluster.instances`: Define the number of PostgreSQL instances to deploy when operating in cluster mode.
@@ -145,8 +149,6 @@ Currently available configuration:
 `postgres.cluster.imagePullPolicy`: Set the image pull policy for the PostgreSQL container images.
 
 `postgres.cluster.enableSuperuserAccess`: Determine whether superuser access should be enabled for the database.
-
-`postgres.cluster.roles`: Specify the roles and their associated permissions within the PostgreSQL cluster. Each role can be configured with login rights, superuser privileges, and membership in predefined roles.
 
 `postgres.cluster.storage.size`: Allocate persistent storage size for the PostgreSQL database, ensuring enough space for your data needs.
 

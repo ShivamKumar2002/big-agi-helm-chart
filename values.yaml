@@ -103,20 +103,12 @@ ingress:
 postgres:
   enabled: true
   mode: standalone
+  username: big-agi  # username which will be used by big-agi for connecting. Mandatory.
+  password: "password"  # password for given username. Mandatory.
   cluster:
     instances: 1
     imagePullPolicy: Always
     enableSuperuserAccess: true
-    roles:
-      - name: big-agi  # this should match the username in secret
-        ensure: present
-        login: true
-        superuser: true
-        createrole: true
-        inRoles:
-          - pg_read_all_data
-          - pg_write_all_data
-        password: "password"
     storage:
       size: 10G
 
