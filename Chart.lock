@@ -1,6 +1,0 @@
-dependencies:
-- name: browserless
-  repository: https://ShivamKumar2002.github.io/helm-charts
-  version: 0.1.0
-digest: sha256:3a5753cef324dfb7999a223639f9ff17972053b762a9f06470642a1b6d286ca7
-generated: "2024-05-02T00:16:53.711251918+05:30"

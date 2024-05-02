@@ -11,3 +11,5 @@ charts/
 .idea/
 *.tmproj
 .vscode/
+
+Chart.lock
