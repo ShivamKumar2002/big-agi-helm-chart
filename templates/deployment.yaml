@@ -31,17 +31,6 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-        {{- if .Values.postgres.enabled }}
-        - name: wait-for-postgres
-          image: postgres:latest
-          command: ['sh', '-c', 'until pg_isready -d "$POSTGRES_URI"; do echo "Waiting for PostgreSQL to become available..."; sleep 5; done;']
-          env:
-            - name: POSTGRES_URI
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "big-agi.fullname" . }}
-                  key: POSTGRES_PRISMA_URL
-        {{- end }}
         {{- if .Values.browserless.enabled }}
         - name: wait-for-browserless
           image: busybox:latest

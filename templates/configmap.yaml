@@ -32,13 +32,6 @@ data:
   OPENAI_API_ORG_ID: '{{ .Values.config.OPENAI_API_ORG_ID }}'
   OPENROUTER_API_KEY: '{{ .Values.config.OPENROUTER_API_KEY }}'
   PERPLEXITY_API_KEY: '{{ .Values.config.PERPLEXITY_API_KEY }}'
-  {{- if .Values.postgres.enabled }}
-  POSTGRES_PRISMA_URL: 'postgresql://{{ .Values.postgres.username }}:{{ .Values.postgres.password }}@{{ include "big-agi.fullname" . }}-postgres-rw.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:5432/app?sslmode=disable'
-  POSTGRES_URL_NON_POOLING: 'postgresql://{{ .Values.postgres.username }}:{{ .Values.postgres.password }}@{{ include "big-agi.fullname" . }}-postgres-rw.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:5432/app?sslmode=disable'
-  {{- else }}
-  POSTGRES_PRISMA_URL: '{{ .Values.config.POSTGRES_PRISMA_URL }}'
-  POSTGRES_URL_NON_POOLING: '{{ .Values.config.POSTGRES_URL_NON_POOLING }}'
-  {{- end }}
   PRODIA_API_KEY: '{{ .Values.config.PRODIA_API_KEY }}'
   {{- if ".Values.browserless.enabled" }}
   PUPPETEER_WSS_ENDPOINT: 'ws://{{ include "big-agi.fullname" . }}-browserless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:3000'

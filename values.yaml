@@ -43,8 +43,6 @@ config:
   OPENAI_API_ORG_ID: ""
   OPENROUTER_API_KEY: ""
   PERPLEXITY_API_KEY: ""
-  POSTGRES_PRISMA_URL: ""
-  POSTGRES_URL_NON_POOLING: ""
   PRODIA_API_KEY: ""
   PUPPETEER_WSS_ENDPOINT: ""
   TOGETHERAI_API_KEY: ""
@@ -99,18 +97,6 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
-postgres:
-  enabled: true
-  mode: standalone
-  username: big-agi  # username which will be used by big-agi for connecting. Mandatory.
-  password: "password"  # password for given username. Mandatory.
-  cluster:
-    instances: 1
-    imagePullPolicy: Always
-    enableSuperuserAccess: true
-    storage:
-      size: 10G
 
 browserless:
   enabled: true

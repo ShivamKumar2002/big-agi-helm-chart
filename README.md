@@ -9,14 +9,13 @@ Welcome to the Big-AGI Helm chart (Unofficial) repository! This helm chart is de
 
 This Helm chart simplifies the deployment of Big-AGI on Kubernetes, allowing you to easily configure and manage your Big-AGI instances at scale. Whether you're running a small cluster or managing a large-scale deployment, this chart provides the flexibility and control you need.
 
-This chart includes inbuilt support for [Browserless](https://github.com/browserless/browserless) and PostgreSQL with [CloudNativePG Operator](https://cloudnative-pg.io/).
+This chart includes inbuilt support for [Browserless](https://github.com/browserless/browserless).
 
  ## Features
 
 - **Easy Deployment**: Quickly deploy Big-AGI on your Kubernetes cluster with just a few commands.
 - **Customizable Configuration**: Tailor Big-AGI settings and APIs to your needs with a wide range of configurable options.
 - **Inbuilt Browserless Support**: Support for seamless deployment of Browserless using my unofficial [Browserless Helm Chart](https://github.com/ShivamKumar2002/browserless-helm-chart).
-- **PostgreSQL Integration**: Support for seamless deployment of PostgreSQL using the [CloudNativePG Operator](https://cloudnative-pg.io/), ensuring high availability and scalability.
 - **Scalability**: Easily scale Big-AGI instances horizontally to handle increased workloads.
 - **Health Checks**: Integrated health checks ensure that your Big-AGI instances are running smoothly.
 - **Security**: Customizable security contexts and service accounts to align with your cluster's security policies.
@@ -116,41 +115,6 @@ The `values.yaml` file contains the default configuration values for the Big-AGI
 - `ingress.annotations`: Annotations to add to the Ingress resource.
 - `ingress.hosts`: A list of hosts to configure for the Ingress resource.
 - `ingress.tls`: TLS configuration for the Ingress resource.
-
-
-### PostgreSQL
-
-This chart allows you to deploy integrated PostgreSQL database using CloudNativePG Operator. See [Official Documentation](https://cloudnative-pg.io/documentation/current/) for more details.
-
-CloudNative-PG Operator must be installed in cluster. Give following commands to install:
-
-```bash
-helm repo add cnpg https://cloudnative-pg.github.io/charts
-helm upgrade --install cnpg \
-  --namespace cnpg-system \
-  --create-namespace \
-  cnpg/cloudnative-pg
-```
-
-**NOTE:** This chart has its own minimal template for postgres cluster. In future we will switch to official chart (once managed roles support is released in chart). Till then, configuring everything is not possible.
-
-Currently available configuration:
-
-`postgres.enabled`: Enable or disable the deployment of a PostgreSQL instance alongside your Big-AGI application. When set to true, a PostgreSQL database will be provisioned.
-
-`postgres.username`: Required if `enabled` is `true`. Specify the username to be used by Big-AGI for connecting. It will be created automatically.
-
-`postgres.password`: Required if `enabled` is `true`. Specify the password for username.
-
-`postgres.mode`: Choose the operational mode of PostgreSQL, which can be either standalone for a single-node deployment or cluster for a multi-node, highly available setup.
-
-`postgres.cluster.instances`: Define the number of PostgreSQL instances to deploy when operating in cluster mode.
-
-`postgres.cluster.imagePullPolicy`: Set the image pull policy for the PostgreSQL container images.
-
-`postgres.cluster.enableSuperuserAccess`: Determine whether superuser access should be enabled for the database.
-
-`postgres.cluster.storage.size`: Allocate persistent storage size for the PostgreSQL database, ensuring enough space for your data needs.
 
 
 ### Browserless Configuration
